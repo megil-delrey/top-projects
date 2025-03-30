@@ -2,22 +2,22 @@
     box-sizing: border-box;
 }
 
-#button-container {
-    display: flex;
-    justify-content: center;
+body {
+    width: 600px;
+    margin: 0 auto;
 }
 
-button {
+#button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     margin-top: 4px;
-    margin-bottom: 8px; 
-    margin-inline: auto;
+    margin-bottom: 8px;
 }
 
 #grid {
     display: flex;
     flex-wrap: wrap;
-    width: 600px;
-    height: 600px;
-    margin: 0 auto;
     background-color: black;
+    height: 600px;
 }
