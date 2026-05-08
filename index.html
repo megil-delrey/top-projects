@@ -4,55 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Janken</title>
-    <style>
-        #buttons {
-            margin-top: 64px;
-            margin-bottom: 32px;
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-        }
-        button {
-            border: 1px solid gray;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-        }
-        img {
-            width: 200px;
-            height: auto;
-        }
-        #result-container {
-            text-align: center;
-        }
-        #winner {
-            font-size: 32px;
-            font-weight: 800;
-        }
-    </style>
 </head>
 <body>
-    <div id="buttons">
-        <button>
-            <img id="rock" src="images/the-rock-rock.gif" alt="">
-        </button>
-        <button>
-            <img id="paper" src="images/tisyu.jpg" alt="">
-        </button>
-        <button>
-            <img id="scissors" src="images/scissors.jpeg" alt="">
-        </button>    
-    </div>
-    <hr>
-    <div id="result-container">
-        <div id="scores">
-            <p>Human score: <span id="human-score"></p>
-            <p>Computer score:<span id="computer-score"></p>
-        </div>
-        <p style="white-space: pre-line;" id="log1"></p>
-        <p id="log2"><p>
-        <span id="winner"></span>
-    </div>
     <script src="script.js"></script>
 </body>
 </html>
