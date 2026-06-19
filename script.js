@@ -1,3 +1,18 @@
+let humanScore = 0;
+let computerScore = 0;
+const beatsWhat = {
+    "rock": "scissors",
+    "paper": "rock",
+    "scissors": "paper"
+}
+const buttons = document.querySelectorAll("button");
+const humanScorePara = document.querySelector("#human-score");
+const computerScorePara = document.querySelector("#computer-score");
+const log1 = document.querySelector("#log-1");
+const log2 = document.querySelector("#log-2");
+const log3 = document.querySelector("#log-3");
+
+
 function getComputerChoice() {
     let num = Math.floor(Math.random() * 3) + 1;
     switch (num) {
@@ -10,59 +25,31 @@ function getComputerChoice() {
     }
 }
 
-function getHumanChoice() {
-    let choice = prompt("Choose between rock, paper, and scissors").toLocaleLowerCase();
-    return choice;
-}
+function playRound(humanChoice, computerChoice) {
+    log1.textContent = `You chose ${humanChoice}, computer chose ${computerChoice}`;    
+    if (humanChoice === computerChoice) {
+        log2.textContent = "Tie!";
+    } else if (beatsWhat[humanChoice] === computerChoice) {
+        log2.textContent = `You win! ${humanChoice} beats ${computerChoice}`;
+        humanScorePara.textContent = `human: ${++humanScore}`;
+    } else {
+        log2.textContent = `You lost! ${computerChoice} beats ${humanChoice}`;
+        computerScorePara.textContent = `computer: ${++computerScore}`;
+    }
 
-
-function playGame() {
-    function playRound(humanChoice, computerChoice) {
-        //console.log(humanChoice);
-        if (humanChoice === "rock") {
-            if (computerChoice === "rock") {
-                console.log("Tie!");
-            } else if (computerChoice === "paper") {
-                console.log("You lose! paper beats rock");
-                computerScore++;
-            } else if (computerChoice === "scissors") {
-                console.log("You win! rock beats scissors");
-                humanScore++;
-            }
-        } else if (humanChoice === "paper") {
-            if (computerChoice === "paper") {
-                console.log("Tie!")
-            } else if (computerChoice === "scissors") {
-                console.log("You lose! scissors beats paper");
-                computerScore++;
-            } else if (computerChoice === "rock") {
-                console.log("You win! paper beats rock");
-                humanScore++;
-            }
-        } else if (humanChoice === "scissors") {
-            if (computerChoice === "scissors") {
-                console.log("Tie!")
-            } else if (computerChoice === "rock") {
-                console.log("You lose! rock beats scissors");
-                computerScore++;
-            } else if (computerChoice === "paper") {
-                console.log("You win! scissors beats paper");
-                humanScore++;
-            }
+    if (humanScore === 5 || computerScore === 5) {
+        buttons.forEach((button) => button.disabled = true);
+        if (humanScore === 5) {
+            log3.textContent = "You won!";
+            log3.style.backgroundColor = "lime";
+        } else {
+            log3.textContent = "You lost!";
+            log3.style.backgroundColor = "pink";
         }
     }
-    let humanScore = 0;
-    let computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        playRound(getHumanChoice(), getComputerChoice());
-    }
-    if (humanScore > computerScore) {
-        console.log("You won the game!");
-    } else if (humanScore < computerScore) {
-        console.log("You lost the game!")
-    } else {
-        console.log("The game is tied!")
-    }
+    
 }
-
-playGame();
+    
+for (const button of buttons) {
+    button.addEventListener("click", (e) => playRound(e.target.id, getComputerChoice()))
+}
