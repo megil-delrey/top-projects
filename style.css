@@ -87,8 +87,8 @@ section.hero button {
 }
 
 section.hero div.image-placeholder {
-    color: #E5E7EB;
-    background-color: rgb(50%, 50%, 50%);
+    color: #1F2937;
+    background-color: pink;
     width: 500px;
     height: 250px;
     display: flex;
