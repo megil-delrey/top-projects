@@ -5,7 +5,7 @@
 }
 
 html {
-    font-size: 16px;
+    font-size: 62.5%;
 }
 
 body {
@@ -13,16 +13,19 @@ body {
     padding: 16px;
     color: rgb(90%, 90%, 90%);
     background-color: rgb(10%, 10%, 10%);
+    line-height: 1.5;
+    font-size: 1.6rem;
 }
 
-h1#main-title {
+.main-title {
     background-color: rgb(0%, 50%, 50%);
     padding: 8px;
     margin-bottom: 1em;
     text-align: center;
+    font-size: 3.4rem;
 }
 
-#recipe-list {
+.recipe-list {
     list-style: none;
     text-align: center;
     display: flex;
@@ -31,25 +34,29 @@ h1#main-title {
     flex-wrap: wrap;
 }
 
-#recipe-list div {
+.recipe-list div {
     margin-bottom: 8px;
 }
 
-#recipe-list img {
+.recipe-list img {
     object-fit: cover;
 }
 
-a {
-    color: rgb(90%, 90%, 90%);
+a:link {
+    color: rgb(0%, 30%, 100%);
 }
 
 a:visited{
-    color: rgb(90%, 0%, 50%);
+    color: rgb(100% 10% 0%);
+}
+
+a:hover {
+    text-decoration-line: none;
 }
 
 h1.title {
     text-align: center;
-    font-size: 28px;
+    font-size: 3.4rem;
     margin-bottom: 1em;
 }
 
@@ -60,7 +67,7 @@ h1.title {
 }
 
 h2 {
-    font-size: 20px;
+    font-size: 2.4rem;
     margin-bottom: 1em;
     background-color: rgb(0%, 50%, 50%);
     padding: 8px;
@@ -71,7 +78,7 @@ p {
 }
 
 h3 {
-    font-size: 16px;
+    font-size: 2rem;
     background-color: rgb(0%, 50%, 50%);
     padding: 8px;
     margin-bottom: 1em;
