@@ -1,0 +1,156 @@
+@font-face {
+    font-family: 'Norse';
+    src: url('fonts/Norse.woff2') format('woff2'),
+        url('fonts/Norse.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Norse';
+    src: url('fonts/Norse-Bold.woff2') format('woff2'),
+        url('fonts/Norse-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+*:not(dialog) {
+  margin: 0;
+}
+
+body {
+    display: flex;
+    font-family: "Google Sans", sans-serif;
+}
+
+/* 7. Inherit fonts for form controls */
+input, button {
+    font: inherit;
+}
+
+.image-sidebar {
+    background-image: url(halie-west-25xggax4bSA-unsplash.jpg);
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 560px;
+    flex-shrink: 0;
+    position: relative;
+    color: white;
+}
+
+.logo {
+    background-color: rgb(0 0 0 / 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 25%;
+    width: 100%;
+    padding-block: 8px;
+}
+
+.logo-text {
+    font-family: Norse, sans-serif;
+    font-weight: bold;
+    font-size: 6rem;
+}
+
+.credit {
+    position: absolute;
+    bottom: 16px;
+    text-align: center;
+    width: 100%;
+}
+
+.credit {
+    font-size: 0.8rem;
+}
+
+.credit a:link {
+    color: white;
+}
+
+.form-area {
+    background-color: rgb(96% 96% 96%);
+    color: rgb(10% 10% 10%);
+}
+
+.paragraph-container {
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding: 120px 32px 56px;
+}
+
+form {
+    background-color: white;
+    padding: 16px 32px 32px;
+    box-shadow: 4px 4px 4px rgb(80% 80% 80%);
+}
+
+form h1 {
+    font-size: 1.25rem;
+    margin-bottom: 1em;
+    font-weight: 500;
+}
+
+.form-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 56px;
+}
+
+label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 4px;
+}
+
+input {
+    padding: 4px;
+    border: 1px solid #E5E7EB;
+    border-radius: 4px;
+    width: 240px;
+    color: rgb(10% 10% 10%);
+    font-size: 0.8rem;
+}
+
+input:focus {
+    outline: 1px solid blue;
+    box-shadow: 4px 4px 4px rgb(80% 80% 80%);
+}
+
+input[type="password"]:user-invalid {
+    border-color: red;
+}
+
+.button-container {
+    padding: 32px 32px 0;
+}
+
+button {
+    padding: 12px 32px;
+    background-color: #596D48;
+    border-style: none;
+    border-radius: 4px;
+    color: white;
+    font-weight: 500;
+    margin-bottom: 32px;
+}
+
+.button-container a {
+    font-weight: bold;
+    text-decoration-line: none;
+}
+
+.button-container a:link {
+    color: #596D48;
+}
