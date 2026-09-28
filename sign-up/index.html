@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="image-sidebar">
+        <div class="logo">
+            <img src="odin-lined.png" alt="odin-logo" width="100">
+            <span class="logo-text">ODIN</span>
+        </div>
+        <div class="credit">
+            Photo by 
+            <a href="https://unsplash.com/@haliewestphoto" target="_blank">Halie West</a> 
+            on 
+            <a href="https://unsplash.com/" target="_blank">Unsplash</a>
+        </div>
+    </div>
+    <div class="form-area">
+        <div class="paragraph-container">
+            <p>This is not a real online service! You know you need something like this in your life
+                to help you realize your deepest dreams.
+                <br>
+                Sign up <em>now</em> to get started.
+                <br>
+                <br>
+                You <em>know</em> you want to.
+            </p>
+        </div>
+        
+        <form action="" id="sign-up-form">
+            <h1>Let's do this!</h1>
+            <div class="form-controls">
+                <div class="form-control">
+                    <label for="first-name">FIRST NAME</label>
+                    <input type="text" id="first-name" name="first-name">
+                </div>
+                <div class="form-control">
+                    <label for="last-name">LAST NAME</label>
+                    <input type="text" id="last-name" name="last-name">
+                </div>
+                <div class="form-control">
+                    <label for="email">EMAIL</label>
+                    <input type="email" id="email" name="email">
+                </div>
+                <div class="form-control">
+                    <label for="phone-number">PHONE NUMBER</label>
+                    <input type="tel" id="phone-number" name="phone-number">
+                </div>
+                <div class="form-control">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-control">
+                    <label for="confirm-password">CONFIRM PASSWORD</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+            </div>
+        </form>
+        <div class="button-container">
+            <button type="submit" form="sign-up-form">Create Account</button>
+            <p>Already have an account?
+                <a href="https://kuroiru.co/signin.html" target="_blank">Log in</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
