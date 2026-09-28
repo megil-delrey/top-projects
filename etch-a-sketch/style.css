@@ -1,0 +1,23 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    width: 600px;
+    margin: 0 auto;
+}
+
+#button-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+#grid {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: black;
+    height: 600px;
+}
