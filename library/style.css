@@ -1,0 +1,131 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+*:not(dialog) {
+    margin: 0;
+    padding: 0;
+}
+
+input,
+button,
+select {
+    font: inherit;
+    border-radius: 4px;
+    border: 1px solid gray;
+}
+
+input, select {
+    padding: 4px;
+}
+
+button {
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+body {
+    line-height: 1.5;
+    font-family: "Google Sans", sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    padding: 16px;
+}
+
+.table-wrapper {
+    /* min-width: 0; */
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+caption {
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+}
+
+thead {
+    background-color: hsl(180 100% 33%);
+    color: white;
+}
+
+th {
+    border: 1px solid black;
+    padding: 4px;
+}
+
+tbody > tr:nth-child(even) {
+    background-color: hsl(180 100% 80%);
+}
+
+td {
+    padding: 4px;
+    border: 1px solid black;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.buttons button {
+    width: 80px;
+}
+
+.show-add-dialog-btn {
+    padding: 8px 12px;
+    background-color: hsl(180 100% 33%);
+    color: white;
+}
+
+.show-delete-dialog-btn,
+.delete-btn {
+    background-color: hsl(0 100% 55%);
+    color: white;
+    
+}
+
+dialog {
+    border-radius: 8px;
+    border-width: 2px;
+    border: none;
+    /* box-shadow: 2px 2px 2px gray; */
+}
+
+.delete-dialog p {
+    margin-bottom: 8px;
+}
+
+.cancel-btn {
+    background-color: hsl(180 10% 50%);
+    color: white;
+}
+
+.add-book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-control {
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.add-book-form .buttons {
+    margin-top: 8px;
+}
+
+.add-btn {
+    background-color: hsl(180 100% 80%);
+}

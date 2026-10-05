@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="table-wrapper">
+        <table>
+            <caption>Light Novel Library</caption>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <button class="show-add-dialog-btn">Add book</button>
+
+    <dialog closedby="any" class="delete-dialog">
+        <p>Confirm delete</p>
+        <div class="buttons">
+            <button class="cancel-btn">Cancel</button>
+            <button class="delete-btn">Ok</button>
+        </div>
+    </dialog>
+    
+    <dialog class="add-dialog" closedby="any">
+        <form method="dialog" class="add-book-form">
+            <h2>Add Book</h2>
+            <div class="form-control">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-control">
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required>
+            </div>
+            <div class="form-control">
+                <label for="start-date">Start date:</label>
+                <input type="date" id="start-date" name="start-date" required>
+            </div>
+            <div class="form-control">
+                <label for="end-date">End date:</label>
+                <input type="date" id="end-date" name="end-date">
+            </div>
+            <div class="form-control">
+                <label for="reading-status">Reading status:</label>
+                <select id="reading-status" name="reading-status" required>
+                        <option value="untracked">Untracked</option>
+                        <option value="reading">Reading</option>
+                        <option value="plan-to-read">Plan to read</option>
+                        <option value="completed">Completed</option>
+                        <option value="dropped">Dropped</option>
+                </select>
+            </div>
+            <div class="buttons">
+                <button class="cancel-btn" type="button">Cancel</button>
+                <button class="add-btn">Add</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+</html>

@@ -1,0 +1,12 @@
+body {
+    line-height: 1.5;
+    font-family: "Google Sans", sans-serif;
+}
+
+a:link {
+    color: hsl(210 100% 50%);
+}
+
+a:visited {
+    color: hsl(320 100% 50%);
+}
