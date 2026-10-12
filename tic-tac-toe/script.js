@@ -1,25 +1,37 @@
-function createPlayer(name, marker) {
-    let name = name;
-    let marker = marker;
+function createPlayer(playerName, playerMarker) {
+    let name = playerName;
+    let marker = playerMarker;
+    let score = 0;
+    
     const getName = () => name;
+    
     const getMarker = () => marker;
-    return {getName, getMarker};
+
+    const getScore = () => score;
+
+    const incrementScore = () => {
+        score++;
+    }
+    
+    return {getName, getMarker, getScore, incrementScore};
 }
 
 
-const board = function() {
+function createBoard() {
     const board = [
         ["", "", ""],
         ["", "", ""],
         ["", "", ""],
     ];
 
+    const getBoard = () => board.map(arr => [...arr]);
+
     const printBoard = () => {
-        console.log(board);
+        console.table(board);
     };
 
     const markCell = (y, x, marker) => {
-        if (x < 0 || x > 2 || y < 0 || y > 2) {
+        if (y === undefined || x === undefined || y < 0 || y > 2 || x < 0 || x > 2) {
             console.log("Invalid cell.");
             return false;
         }
@@ -48,19 +60,27 @@ const board = function() {
         for (const line of lines) {
             const [a, b, c] = line.map(([y, x]) => board[y][x]);
             if (a && a === b && b === c) {
-                return players.find(player => player.marker === a);
-            } else {
-                return;
-            }
+                console.log(a);
+                return a;
+            } 
         }
     }
 
-    return {printBoard, markCell, getWinningMark};
-}();
+    const reset = () => {
+        board.forEach(row => {
+            row.forEach((element, index) => {
+                row[index] = "";
+            })
+        });
+    }
+
+    return {getBoard, printBoard, markCell, getWinningMark, reset};
+}
 
 
-function createGame (player1Name = "Player 1", player2Name = "Player 2") {
-    const players = [createPlayer(player1Name), createPlayer(player2Name)];
+function createGame(player1Name = "Player X", player2Name = "Player O") {
+    const players = [createPlayer(player1Name, "X"), createPlayer(player2Name, "O")];
+    const board = createBoard();
 
     let activePlayer = players[0];
     
@@ -69,19 +89,30 @@ function createGame (player1Name = "Player 1", player2Name = "Player 2") {
     }
 
     const newTurn = () => {
+        players.forEach(player => {
+            console.log(`${player.getName()}: ${player.getScore()}`);
+        });
         console.log(`${activePlayer.getName()}'s turn.`);
         board.printBoard();
     }
 
     const playTurn = (y, x) => {
-        const markedCellSuccessfully = board.fillCell(y, x, activePlayer.getMarker());
+        const markedCellSuccessfully = board.markCell(y, x, activePlayer.getMarker());
         if (!markedCellSuccessfully) {
             newTurn();
             return;
         }
         const winningMark = board.getWinningMark();
         if (winningMark) {
-            
+            const roundWinner = players.find(player => player.getMarker() === winningMark);
+            roundWinner.incrementScore();
+            if (roundWinner.getScore() === 2) {
+                console.log(`${roundWinner.getName()} wins the match.`);
+                return;   
+            } else {
+                console.log(`${roundWinner.getName()} wins the round.`);
+                board.reset();
+            }
         }
         switchActivePlayer();
         newTurn();
@@ -93,4 +124,4 @@ function createGame (player1Name = "Player 1", player2Name = "Player 2") {
 };
 
 
-const game = createGame();
+let game = createGame();
