@@ -1,14 +1,14 @@
-function createPlayer(playerName, playerMarker) {
-    let name = playerName;
-    let marker = playerMarker;
+"use strict";
+
+function createPlayer(name, marker) {
     let score = 0;
-    
+
     const getName = () => name;
     
     const getMarker = () => marker;
-
+    
     const getScore = () => score;
-
+    
     const incrementScore = () => {
         score++;
     }
@@ -23,13 +23,13 @@ function createBoard() {
         ["", "", ""],
         ["", "", ""],
     ];
-
-    const getBoard = () => board.map(arr => [...arr]);
-
+    
+    const getBoard = () => board.map(row => [...row]);
+    
     const printBoard = () => {
         console.table(board);
     };
-
+    
     const markCell = (y, x, marker) => {
         if (y === undefined || x === undefined || y < 0 || y > 2 || x < 0 || x > 2) {
             console.log("Invalid cell.");
@@ -42,7 +42,7 @@ function createBoard() {
         board[y][x] = marker;
         return true;
     }
-
+    
     const getWinningMark = () => {
         const lines = [
             // rows
@@ -65,7 +65,7 @@ function createBoard() {
             } 
         }
     }
-
+    
     const reset = () => {
         board.forEach(row => {
             row.forEach((element, index) => {
@@ -73,7 +73,7 @@ function createBoard() {
             })
         });
     }
-
+    
     return {getBoard, printBoard, markCell, getWinningMark, reset};
 }
 
