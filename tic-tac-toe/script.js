@@ -1,86 +1,81 @@
 "use strict";
 
 function createPlayer(name, marker) {
-    let score = 0;
-
     const getName = () => name;
     
     const getMarker = () => marker;
     
-    const getScore = () => score;
-    
-    function incrementScore() {
-        score++;
-    }
-    
-    return {getName, getMarker, getScore, incrementScore};
+    return {getName, getMarker};
 }
 
 
-function createBoard() {
-    const board = [
-        ["", "", ""],
-        ["", "", ""],
-        ["", "", ""],
+const board = (() => {
+    const board = ["", "", "", "", "", "", "", "", ""];
+    const winningLines = [
+            // rows
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            // columns
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            // diagonals
+            [0, 4, 8],
+            [2, 4, 6],
     ];
-    
+    let lastMark;
+
     const getBoard = () => board.map(row => [...row]);
     
     function printBoard() {
-        console.table(board);
+        const twoDboard = [];
+        for (let i = 0; i < 9; i += 3) {
+            twoDboard.push([board[i], board[i + 1], board[i + 2]]);
+        } 
+        console.table(twoDboard);
     };
     
-    function markCell(y, x, marker) {
-        if (y === undefined || x === undefined || y < 0 || y > 2 || x < 0 || x > 2) {
+    function markCell(index, mark) {
+        if (index === undefined || index < 0 || index > 8) {
             console.log("Invalid cell.");
             return false;
         }
-        if (board[y][x]) {
+        if (board[index]) {
             console.log("Cell already marked.");
             return false;
         }
-        board[y][x] = marker;
+        board[index] = mark;
+        lastMark = mark;
         return true;
     }
     
-    function getWinningMark() {
-        const lines = [
-            // rows
-            [[0, 0], [0, 1], [0, 2]],
-            [[1, 0], [1, 1], [1, 2]],
-            [[2, 0], [2, 1], [2, 2]],
-            // columns
-            [[0, 0], [1, 0], [2, 0]],
-            [[0, 1], [1, 1], [2, 1]],
-            [[0, 2], [1, 2], [2, 2]],
-            // diagonals
-            [[0, 0], [1, 1], [2, 2]],
-            [[0, 2], [1, 1], [2, 0]],
-        ];
-        for (const line of lines) {
-            const [a, b, c] = line.map(([y, x]) => board[y][x]);
-            if (a && a === b && b === c) {
-                // console.log(a);
-                return a;
-            } 
-        }
+    function hasAWinner() {
+        return winningLines.some(line => line.every(index => board[index] === lastMark));
+    }
+
+    function isTie() {
+        return board.every(element => element !== "");
     }
     
+    function getResult() {
+        if (hasAWinner()) return "win";
+        if (isTie()) return "tie";
+        return "ongoing";
+    }
+
     function reset() {
-        board.forEach(row => {
-            row.forEach((element, index) => {
-                row[index] = "";
-            })
+        board.forEach((element, index) => {
+            board[index] = "";
         });
     }
     
-    return {getBoard, printBoard, markCell, getWinningMark, reset};
-}
+    return {getBoard, printBoard, markCell, getResult, reset};
+})();
 
 
 function createGame(player1Name = "Player X", player2Name = "Player O") {
     const players = [createPlayer(player1Name, "X"), createPlayer(player2Name, "O")];
-    const board = createBoard();
 
     let activePlayer = players[0];
     
@@ -89,38 +84,36 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
     }
 
     function newTurn() {
-        players.forEach(player => {
-            console.log(`${player.getName()}: ${player.getScore()}`);
-        });
         console.log(`${activePlayer.getName()}'s turn.`);
         board.printBoard();
     }
 
-    function playTurn(y, x) {
-        const markedCellSuccessfully = board.markCell(y, x, activePlayer.getMarker());
-        if (!markedCellSuccessfully) {
+    function playTurn(index) {
+        const isCellMarkedSuccessfully = board.markCell(index, activePlayer.getMarker());
+        if (!isCellMarkedSuccessfully) {
             newTurn();
             return;
         }
-        const winningMark = board.getWinningMark();
-        if (winningMark) {
-            const roundWinner = players.find(player => player.getMarker() === winningMark);
-            roundWinner.incrementScore();
-            if (roundWinner.getScore() === 2) {
-                console.log(`${roundWinner.getName()} wins the match.`);
-                return;   
-            } else {
-                console.log(`${roundWinner.getName()} wins the round.`);
-                board.reset();
-            }
+        const result = board.getResult();
+        if (result === "win") {
+            console.log(`${activePlayer.getName()} won.`);
+            return;
+        } else if (result === "tie") {
+            console.log("Tie.");
+            return;
         }
         switchActivePlayer();
         newTurn();
     }
 
+    function reset() {
+        board.reset()
+        activePlayer = players[0];
+    }
+
     newTurn(); 
 
-    return {playTurn};
+    return {playTurn, reset};
 };
 
 
