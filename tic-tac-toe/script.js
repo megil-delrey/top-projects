@@ -9,7 +9,7 @@ function createPlayer(name, marker) {
     
     const getScore = () => score;
     
-    const incrementScore = () => {
+    function incrementScore() {
         score++;
     }
     
@@ -26,11 +26,11 @@ function createBoard() {
     
     const getBoard = () => board.map(row => [...row]);
     
-    const printBoard = () => {
+    function printBoard() {
         console.table(board);
     };
     
-    const markCell = (y, x, marker) => {
+    function markCell(y, x, marker) {
         if (y === undefined || x === undefined || y < 0 || y > 2 || x < 0 || x > 2) {
             console.log("Invalid cell.");
             return false;
@@ -43,7 +43,7 @@ function createBoard() {
         return true;
     }
     
-    const getWinningMark = () => {
+    function getWinningMark() {
         const lines = [
             // rows
             [[0, 0], [0, 1], [0, 2]],
@@ -60,13 +60,13 @@ function createBoard() {
         for (const line of lines) {
             const [a, b, c] = line.map(([y, x]) => board[y][x]);
             if (a && a === b && b === c) {
-                console.log(a);
+                // console.log(a);
                 return a;
             } 
         }
     }
     
-    const reset = () => {
+    function reset() {
         board.forEach(row => {
             row.forEach((element, index) => {
                 row[index] = "";
@@ -84,11 +84,11 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
 
     let activePlayer = players[0];
     
-    const switchActivePlayer = () => {
+    function switchActivePlayer() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    const newTurn = () => {
+    function newTurn() {
         players.forEach(player => {
             console.log(`${player.getName()}: ${player.getScore()}`);
         });
@@ -96,7 +96,7 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
         board.printBoard();
     }
 
-    const playTurn = (y, x) => {
+    function playTurn(y, x) {
         const markedCellSuccessfully = board.markCell(y, x, activePlayer.getMarker());
         if (!markedCellSuccessfully) {
             newTurn();
