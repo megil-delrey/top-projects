@@ -5,12 +5,12 @@ function createPlayer(name, marker) {
     
     const getMarker = () => marker;
     
-    return {getName, getMarker};
+    return { getName, getMarker };
 }
 
 
 const board = (() => {
-    const board = ["", "", "", "", "", "", "", "", ""];
+    const board = ["X", "O", "", "", "", "X", "O", "", ""];
     const winningLines = [
             // rows
             [0, 1, 2],
@@ -26,7 +26,7 @@ const board = (() => {
     ];
     let lastMark;
 
-    const getBoard = () => board.map(row => [...row]);
+    const getBoard = () => [...board];
     
     function printBoard() {
         const twoDboard = [];
@@ -50,7 +50,7 @@ const board = (() => {
         return true;
     }
     
-    function hasAWinner() {
+    function hasWon() {
         return winningLines.some(line => line.every(index => board[index] === lastMark));
     }
 
@@ -59,7 +59,7 @@ const board = (() => {
     }
     
     function getResult() {
-        if (hasAWinner()) return "win";
+        if (hasWon()) return "win";
         if (isTie()) return "tie";
         return "ongoing";
     }
@@ -70,7 +70,25 @@ const board = (() => {
         });
     }
     
-    return {getBoard, printBoard, markCell, getResult, reset};
+    return { getBoard, printBoard, markCell, getResult, reset };
+})();
+
+
+const displayController = (() => {
+    function renderBoard() {
+        const gridContainerDiv = document.createElement("div");
+        gridContainerDiv.classList.add("grid-container");
+        board.getBoard().forEach((element, index) => {
+            const gridItemDiv = document.createElement("div");
+            gridItemDiv.classList.add("grid-item");
+            gridItemDiv.textContent = element;
+            gridItemDiv.dataset.index = index;
+            gridContainerDiv.appendChild(gridItemDiv);
+        });
+        document.querySelector(".board-container").appendChild(gridContainerDiv);
+    }
+
+    return { renderBoard };
 })();
 
 
@@ -84,8 +102,8 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
     }
 
     function newTurn() {
-        console.log(`${activePlayer.getName()}'s turn.`);
-        board.printBoard();
+        // console.log(`${activePlayer.getName()}'s turn.`);
+        displayController.renderBoard()
     }
 
     function playTurn(index) {
@@ -113,7 +131,7 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
 
     newTurn(); 
 
-    return {playTurn, reset};
+    return { playTurn, reset };
 };
 
 
