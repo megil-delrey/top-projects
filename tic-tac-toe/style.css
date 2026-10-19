@@ -12,6 +12,7 @@
 input,
 button {
     font: inherit;
+    color: inherit;
 }
 
 body {
@@ -20,17 +21,45 @@ body {
     color: hsl(0 0% 10%);
 }
 
-.grid-container {
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+}
+
+.player-names {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    font-weight: 500;
+}
+
+.player-names > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.vs {
+    align-self: center;
+}
+
+.marker {
+    font-size: 1.5rem;
+}
+
+.board {
     display: grid;
     grid-template-columns: repeat(3, 64px);
     grid-template-rows: repeat(3, 64px);
     background-color: hsl(0 0% 10%);
-    gap: 6px;
+    gap: 4px;
     width: fit-content;
-    margin: 0 auto;
 }
 
-.grid-item {
+.cell {
     background-color: white;
     padding: 8px;
     font-weight: 700;
@@ -38,4 +67,9 @@ body {
     font-size: 48px;
     text-align: center;
     cursor: pointer;
+    border: none;
+}
+
+.message {
+
 }

@@ -10,9 +10,49 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="board-container">
+    <div class="setup" >
 
     </div>
+
+    <main>
+        <div class="player-names">
+            <div class="player-x">
+                <span class="name"></span>
+                <span class="marker"></span>
+            </div>
+            <span class="vs">VS</span>
+            <div class="player-o">
+                <span class="name"></span>
+                <span class="marker"></span>
+            </div>
+        </div>
+        <div class="board">
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+            <button class="cell"></button>
+        </div>
+        <p class="message"></p>
+        <div class="buttons">
+            <button class="new-game">New Game</button>
+            <button class="restart">Restart</button>
+        </div>
+    </main>
+    
     <script src="./script.js"></script>
+    <!-- <script>
+    // console.log(message);
+    function log() {
+        console.log(message);
+    }
+    log();
+    let message = "fuck";
+    // log();
+    </script> -->
 </body>
 </html>

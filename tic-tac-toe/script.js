@@ -10,7 +10,7 @@ function createPlayer(name, marker) {
 
 
 const board = (() => {
-    const board = ["X", "O", "", "", "", "X", "O", "", ""];
+    const board = ["", "", "", "", "", "", "", "", ""];
     const winningLines = [
             // rows
             [0, 1, 2],
@@ -36,13 +36,11 @@ const board = (() => {
         console.table(twoDboard);
     };
     
-    function markCell(index, mark) {
+    function tryMarkCell(index, mark) {
         if (index === undefined || index < 0 || index > 8) {
-            console.log("Invalid cell.");
             return false;
         }
         if (board[index]) {
-            console.log("Cell already marked.");
             return false;
         }
         board[index] = mark;
@@ -61,7 +59,7 @@ const board = (() => {
     function getResult() {
         if (hasWon()) return "win";
         if (isTie()) return "tie";
-        return "ongoing";
+        return null;
     }
 
     function reset() {
@@ -70,69 +68,129 @@ const board = (() => {
         });
     }
     
-    return { getBoard, printBoard, markCell, getResult, reset };
-})();
-
-
-const displayController = (() => {
-    function renderBoard() {
-        const gridContainerDiv = document.createElement("div");
-        gridContainerDiv.classList.add("grid-container");
-        board.getBoard().forEach((element, index) => {
-            const gridItemDiv = document.createElement("div");
-            gridItemDiv.classList.add("grid-item");
-            gridItemDiv.textContent = element;
-            gridItemDiv.dataset.index = index;
-            gridContainerDiv.appendChild(gridItemDiv);
-        });
-        document.querySelector(".board-container").appendChild(gridContainerDiv);
-    }
-
-    return { renderBoard };
+    return { getBoard, printBoard, tryMarkCell, getResult, reset };
 })();
 
 
 function createGame(player1Name = "Player X", player2Name = "Player O") {
     const players = [createPlayer(player1Name, "X"), createPlayer(player2Name, "O")];
-
     let activePlayer = players[0];
+    let result = null;
+    let isGameOver = false;
     
+    const getPlayers = () => players.map(player => ({...player}))
+
+    const getActivePlayer = () => activePlayer;
+
+    const getResult = () => result;
+
+    const isOver = () => isGameOver;
+
     function switchActivePlayer() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    function newTurn() {
-        // console.log(`${activePlayer.getName()}'s turn.`);
-        displayController.renderBoard()
-    }
-
     function playTurn(index) {
-        const isCellMarkedSuccessfully = board.markCell(index, activePlayer.getMarker());
-        if (!isCellMarkedSuccessfully) {
-            newTurn();
-            return;
-        }
-        const result = board.getResult();
-        if (result === "win") {
-            console.log(`${activePlayer.getName()} won.`);
-            return;
-        } else if (result === "tie") {
-            console.log("Tie.");
+        if (isGameOver) return;
+        if (!board.tryMarkCell(index, activePlayer.getMarker())) return;
+        result = board.getResult();
+        if (result) {
+            isGameOver = true;
             return;
         }
         switchActivePlayer();
-        newTurn();
     }
 
-    function reset() {
+    function restart() {
         board.reset()
         activePlayer = players[0];
-    }
+        result = null;
+        isGameOver = false;
+    }    
 
-    newTurn(); 
-
-    return { playTurn, reset };
+    return {
+        getPlayers, 
+        getActivePlayer, 
+        getResult,
+        isOver,
+        playTurn, 
+        restart 
+    };
 };
 
 
+const displayController = (() => {
+    const cells = document.querySelectorAll(".cell");
+    const messageP = document.querySelector(".message");
+    const restartButton = document.querySelector(".restart");
+
+    cells.forEach((cell, index) => {
+        cell.addEventListener("click", () => {
+            handleCellClick(index);
+        });
+    })
+    
+    restartButton.addEventListener("click", () => {
+        handleRestart();
+    });
+
+    function init() {
+        updateMessage(`${game.getPlayers()[0].getName()}'s turn.`);
+        document.querySelector(".player-x .name").textContent = game.getPlayers()[0].getName();
+        document.querySelector(".player-x .marker").textContent = game.getPlayers()[0].getMarker();
+        document.querySelector(".player-o .name").textContent = game.getPlayers()[1].getName();
+        document.querySelector(".player-o .marker").textContent = game.getPlayers()[1].getMarker();
+    }
+
+    function handleCellClick(index) {
+        game.playTurn(index);
+        updateBoard();
+        let message;
+        // const result = game.getResult();
+        if (game.isOver()) {
+            message = game.getResult() === "win"
+                ? `${game.getActivePlayer().getName()} wins.`
+                : "Tie.";
+            disableCells();
+        } else {
+            message = `${game.getActivePlayer().getName()}'s turn`;
+        }
+        updateMessage(message);
+        console.log("fuk"); 
+    }
+
+    function handleRestart() {
+        game.restart();
+        updateBoard();
+        updateMessage(`${game.getActivePlayer().getName()}'s turn.`);
+        enableCells();
+    }
+
+    function updateBoard() {
+        board.getBoard().forEach((mark, index) => {
+            cells[index].textContent = mark;
+        })
+    }
+
+    function updateMessage(message) {
+        messageP.textContent = message;
+    }
+
+    function enableCells() {
+        cells.forEach(cell => {
+            cell.disabled = false;
+        });
+    }
+
+    function disableCells() {
+        cells.forEach(cell => {
+            cell.disabled = true;
+        });
+    }
+
+    return { init };
+})();
+
+
 let game = createGame();
+displayController.init();
