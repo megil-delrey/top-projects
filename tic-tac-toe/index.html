@@ -10,8 +10,69 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="setup" >
+    <h1>Tic Tac Toe</h1>
+    <div class="setup">
+        <div class="cards">
+            <div class="card">
+                <div>
+                    <label for="player-x-name">Name:</label>
+                    <input type="text" placeholder="Player X" id="player-x-name">
+                </div>
+                <div class="is-computer">
+                    <div>
+                        <label for="is-x-computer">Is a computer?</label>
+                        <input type="checkbox" name="is-x-computer" id="is-x-computer">
+                    </div>
+                    <fieldset class="x-skill-level">
+                        <legend>Skill level: </legend>
+                        <div>
+                            <input type="radio" name="x-skill-level" id="x-skill-level-1" value="lo" checked>
+                            <label for="x-skill-level-1">Low</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="x-skill-level" id="x-skill-level-2" value="med">
+                            <label for="x-skill-level-2">Medium</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="x-skill-level" id="x-skill-level-3" value="hi">
+                            <label for="x-skill-level-3">High</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
 
+            <span class="vs">VS</span>
+
+            <div class="card">
+                <div>
+                    <label for="player-y-name">Name:</label>
+                    <input type="text" placeholder="Player Y" id="player-y-name">
+                </div>
+                <div class="is-computer">
+                    <div>
+                        <label for="is-y-computer">Is a computer?</label>
+                        <input type="checkbox" name="is-y-computer" id="is-y-computer">
+                    </div>
+                    <fieldset class="y-skill-level">
+                        <legend>Skill level: </legend>
+                        <div>
+                            <input type="radio" name="y-skill-level" id="y-skill-level-1" value="lo" checked>
+                            <label for="y-skill-level-1">Low</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="y-skill-level" id="y-skill-level-2" value="med">
+                            <label for="y-skill-level-2">Medium</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="y-skill-level" id="y-skill-level-3" value="hi">
+                            <label for="y-skill-level-3">High</label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+
+        <button class="start">Start</button>
     </div>
 
     <main>

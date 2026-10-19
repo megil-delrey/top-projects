@@ -29,11 +29,11 @@ const board = (() => {
     const getBoard = () => [...board];
     
     function printBoard() {
-        const twoDboard = [];
+        const boardCopy = [];
         for (let i = 0; i < 9; i += 3) {
-            twoDboard.push([board[i], board[i + 1], board[i + 2]]);
+            boardCopy.push([board[i], board[i + 1], board[i + 2]]);
         } 
-        console.table(twoDboard);
+        console.table(boardCopy);
     };
     
     function tryMarkCell(index, mark) {
@@ -90,7 +90,7 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    function playTurn(index) {
+    function markCell(index) {
         if (isGameOver) return;
         if (!board.tryMarkCell(index, activePlayer.getMarker())) return;
         result = board.getResult();
@@ -113,7 +113,7 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
         getActivePlayer, 
         getResult,
         isOver,
-        playTurn, 
+        markCell, 
         restart 
     };
 };
@@ -126,12 +126,12 @@ const displayController = (() => {
 
     cells.forEach((cell, index) => {
         cell.addEventListener("click", () => {
-            handleCellClick(index);
+            markCell(index);
         });
     })
     
     restartButton.addEventListener("click", () => {
-        handleRestart();
+        restart();
     });
 
     function init() {
@@ -142,8 +142,8 @@ const displayController = (() => {
         document.querySelector(".player-o .marker").textContent = game.getPlayers()[1].getMarker();
     }
 
-    function handleCellClick(index) {
-        game.playTurn(index);
+    function markCell(index) {
+        game.markCell(index);
         updateBoard();
         let message;
         // const result = game.getResult();
@@ -156,10 +156,9 @@ const displayController = (() => {
             message = `${game.getActivePlayer().getName()}'s turn`;
         }
         updateMessage(message);
-        console.log("fuk"); 
     }
 
-    function handleRestart() {
+    function restart() {
         game.restart();
         updateBoard();
         updateMessage(`${game.getActivePlayer().getName()}'s turn.`);

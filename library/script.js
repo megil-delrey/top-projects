@@ -5,6 +5,7 @@ const showAddDialogBtn = document.querySelector(".show-add-dialog-btn");
 const closeAddDialogBtn = addDialog.querySelector(".cancel-btn");
 const closeDeleteDialogBtn = deleteDialog.querySelector(".cancel-btn");
 const deleteBtn = deleteDialog.querySelector(".delete-btn");
+const form = addDialog.querySelector("form");
 const titleInput = document.querySelector("#title");
 const authorInput = document.querySelector("#author");
 const startDateInput = document.querySelector("#start-date");
@@ -97,7 +98,7 @@ closeAddDialogBtn.addEventListener("click", () => {
     addDialog.close();
 });
 
-addDialog.addEventListener("submit", () => {
+form.addEventListener("submit", () => {
     const startDate = startDateInput.value !== "" ? new Date(startDateInput.value) : "";
     const endDate = endDateInput.value !== "" ? new Date(endDateInput.value) : "";
     addBookToLibrary(
@@ -108,7 +109,7 @@ addDialog.addEventListener("submit", () => {
         endDate,
         readingStatusInput.value
     );
-    addDialog.querySelector("form").reset();
+    form.reset();
     displayBooks();
     
 });
