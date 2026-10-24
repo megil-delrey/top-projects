@@ -14,26 +14,26 @@
     <div class="setup">
         <div class="cards">
             <div class="card">
-                <div>
+                <div class="form-field">
                     <label for="player-x-name">Name:</label>
                     <input type="text" placeholder="Player X" id="player-x-name">
                 </div>
                 <div class="is-computer">
-                    <div>
+                    <div class="form-field">
                         <label for="is-x-computer">Is a computer?</label>
-                        <input type="checkbox" name="is-x-computer" id="is-x-computer">
+                        <input type="checkbox" name="is-x-computer" id="is-x-computer" data-for="x-skill-level">
                     </div>
-                    <fieldset class="x-skill-level">
+                    <fieldset id="x-skill-level" class="hidden">
                         <legend>Skill level: </legend>
-                        <div>
+                        <div class="form-field">
                             <input type="radio" name="x-skill-level" id="x-skill-level-1" value="lo" checked>
                             <label for="x-skill-level-1">Low</label>
                         </div>
-                        <div>
+                        <div class="form-field">
                             <input type="radio" name="x-skill-level" id="x-skill-level-2" value="med">
                             <label for="x-skill-level-2">Medium</label>
                         </div>
-                        <div>
+                        <div class="form-field">
                             <input type="radio" name="x-skill-level" id="x-skill-level-3" value="hi">
                             <label for="x-skill-level-3">High</label>
                         </div>
@@ -44,26 +44,26 @@
             <span class="vs">VS</span>
 
             <div class="card">
-                <div>
+                <div class="form-field">
                     <label for="player-y-name">Name:</label>
                     <input type="text" placeholder="Player Y" id="player-y-name">
                 </div>
                 <div class="is-computer">
-                    <div>
+                    <div class="form-field">
                         <label for="is-y-computer">Is a computer?</label>
-                        <input type="checkbox" name="is-y-computer" id="is-y-computer">
+                        <input type="checkbox" name="is-y-computer" id="is-y-computer" data-for="y-skill-level">
                     </div>
-                    <fieldset class="y-skill-level">
+                    <fieldset id="y-skill-level" class="hidden">
                         <legend>Skill level: </legend>
-                        <div>
+                        <div class="form-field">
                             <input type="radio" name="y-skill-level" id="y-skill-level-1" value="lo" checked>
                             <label for="y-skill-level-1">Low</label>
                         </div>
-                        <div>
+                        <div class="form-field">
                             <input type="radio" name="y-skill-level" id="y-skill-level-2" value="med">
                             <label for="y-skill-level-2">Medium</label>
                         </div>
-                        <div>
+                        <div class="form-field">
                             <input type="radio" name="y-skill-level" id="y-skill-level-3" value="hi">
                             <label for="y-skill-level-3">High</label>
                         </div>

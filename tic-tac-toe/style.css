@@ -13,12 +13,29 @@ input,
 button {
     font: inherit;
     color: inherit;
+    border: 1px solid hsl(0 0% 50%);
+
+}
+
+input[type="text"] {
+    padding-inline: 4px;
+    padding-block: 2px;
+    border-radius: 4px;
+}
+
+button {
+    border: 1px solid hsl(0 0% 50%);
+    border-radius: 8px;
 }
 
 body {
     padding: 16px;
     font-family: "Google Sans", sans-serif;
     color: hsl(0 0% 10%);
+}
+
+.hidden {
+    display: none;
 }
 
 .setup {
@@ -37,6 +54,7 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
+    align-items: flex-start;
 }
 
 .card {
@@ -56,11 +74,21 @@ fieldset {
     border-radius: 8px;
 }
 
+.form-field {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 main {
     display: none;
     flex-direction: column;
     gap: 24px;
     align-items: center;
+}
+
+.start {
+    padding: 4px 16px;
 }
 
 .player-names {

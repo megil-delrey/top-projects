@@ -120,11 +120,18 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
 
 
 const displayController = (() => {
-    const cells = document.querySelectorAll(".cell");
+    const isComputerChkbxs = document.querySelectorAll("input[type='checkbox']");
+    const cellBtns = document.querySelectorAll(".cell");
     const messageP = document.querySelector(".message");
     const restartButton = document.querySelector(".restart");
 
-    cells.forEach((cell, index) => {
+    isComputerChkbxs.forEach(chkbx => {
+        chkbx.addEventListener("change", () => {
+            document.querySelector(`#${chkbx.dataset.for}`).classList.toggle("hidden");
+        });
+    });
+
+    cellBtns.forEach((cell, index) => {
         cell.addEventListener("click", () => {
             markCell(index);
         });
@@ -167,7 +174,7 @@ const displayController = (() => {
 
     function updateBoard() {
         board.getBoard().forEach((mark, index) => {
-            cells[index].textContent = mark;
+            cellBtns[index].textContent = mark;
         })
     }
 
@@ -176,13 +183,13 @@ const displayController = (() => {
     }
 
     function enableCells() {
-        cells.forEach(cell => {
+        cellBtns.forEach(cell => {
             cell.disabled = false;
         });
     }
 
     function disableCells() {
-        cells.forEach(cell => {
+        cellBtns.forEach(cell => {
             cell.disabled = true;
         });
     }
