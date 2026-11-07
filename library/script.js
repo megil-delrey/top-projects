@@ -13,38 +13,38 @@ const endDateInput = document.querySelector("#end-date");
 const readingStatusInput = document.querySelector("#reading-status");
 const dateOptions = { month: "short", day: "numeric", year: "numeric" };
 
-const library = [
-    {
-        id: crypto.randomUUID(),
-        title: "Chrome Shelled Regios",
-        author: "Shuusuke Amagi",
-        startDate: new Date(2006, 2, 18),
-        endDate: new Date(2013, 8, 20),
-        readingStatus: "reading"
-    },
-    {
-        id: crypto.randomUUID(),
-        title: "The Irregular at Magic High School",
-        author: "Tsutomu Satou",
-        startDate: new Date(2011, 6, 8),
-        endDate: new Date(2020, 8, 10),
-        readingStatus: "completed"
+
+class Book {
+    constructor(id, title, author, startDate, endDate, readingStatus) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.startDate = startDate;
+        this.endDate = endDate
+        this.readingStatus = readingStatus;
     }
+}
+
+
+const library = [
+    new Book(
+        crypto.randomUUID(),
+        "Chrome Shelled Regios",
+        "Shuusuke Amagi",
+        new Date(2006, 2, 18),
+        new Date(2013, 8, 20),
+        "reading"
+    ),
+    new Book(
+        crypto.randomUUID(),
+        "The Irregular at Magic High School",
+        "Tsutomu Satou",
+        new Date(2011, 6, 8),
+        new Date(2020, 8, 10),
+        "completed"
+    )
 ];
 
-function Book(id, title, author, startDate, endDate, readingStatus) {
-    this.id = id;
-    this.title = title;
-    this.author = author;
-    this.startDate = startDate;
-    this.endDate = endDate
-    this.readingStatus = readingStatus;
-}
-
-function addBookToLibrary(id, title, author, startDate, endDate, readingStatus) {
-    const book = new Book(...arguments);
-    library.push(book);
-}
 
 // Display books as rows in table
 function displayBooks() {
@@ -101,14 +101,14 @@ closeAddDialogBtn.addEventListener("click", () => {
 form.addEventListener("submit", () => {
     const startDate = startDateInput.value !== "" ? new Date(startDateInput.value) : "";
     const endDate = endDateInput.value !== "" ? new Date(endDateInput.value) : "";
-    addBookToLibrary(
+    library.push(new Book(
         crypto.randomUUID(),
         titleInput.value,
         authorInput.value,
         startDate,
         endDate,
         readingStatusInput.value
-    );
+    ));
     form.reset();
     displayBooks();
     
