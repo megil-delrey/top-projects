@@ -13,7 +13,6 @@ input,
 button {
     font: inherit;
     color: inherit;
-    border: 1px solid hsl(0 0% 50%);
 
 }
 
@@ -23,19 +22,10 @@ input[type="text"] {
     border-radius: 4px;
 }
 
-button {
-    border: 1px solid hsl(0 0% 50%);
-    border-radius: 8px;
-}
-
 body {
     padding: 16px;
     font-family: "Google Sans", sans-serif;
     color: hsl(0 0% 10%);
-}
-
-.hidden {
-    display: none;
 }
 
 .setup {
@@ -67,7 +57,6 @@ h1 {
     align-items: flex-start;
 }
 
-
 fieldset {
     padding: 8px;
     margin: 8px 0 0 16px;
@@ -80,8 +69,13 @@ fieldset {
     gap: 4px;
 }
 
+.start {
+    border: 1px solid hsl(0 0% 50%);
+    border-radius: 8px;
+}
+
 main {
-    display: none;
+    display: flex;
     flex-direction: column;
     gap: 24px;
     align-items: center;
@@ -135,4 +129,8 @@ main {
 
 .message {
 
+}
+
+.hidden {
+    display: none;
 }

@@ -1,11 +1,47 @@
 "use strict";
 
-function createPlayer(name, marker) {
+function createPlayer(name, marker, isComputer = false) {
     const getName = () => name;
     
     const getMarker = () => marker;
     
-    return { getName, getMarker };
+    return { 
+        getName, 
+        getMarker,
+        isComputer: () => isComputer
+    };
+}
+
+function createComputerPlayer(name, marker, skillLevel = 1) {
+    const player = createPlayer(name, marker, true);
+    
+    const getEmptyCells = (board) =>
+        board.map((cell, index) => cell === "" ? index : null).filter((index) => index !== null);
+
+    const pickRandomCell = (emptyCells) => emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+    // const hasWon = (cells, marker) =>
+    //     WIN_LINES.some(line => line.every(i => cells[i] === marker));
+
+    // For each index of empty cells, mark that index in a copy of a board and test if that move triggered a win.
+    const findWinningMove = (board, marker) =>
+        getEmptyCells(board).find((index) => {
+            const boardCopy = [...board];
+            boardCopy[index] = marker;
+            return board.hasWon(boardCopy, marker);
+        });
+
+    function chooseMove(board, oppMarker){
+        if (Math.random() < skillLevel) {
+            const win = findWinningMove(board, marker);
+            if (win !== undefined) return win;        // 1. win if possible
+            const block = findWinningMove(board, oppMarker);
+            if (block !== undefined) return block;    // 2. otherwise block
+        }
+        return pickRandomCell(getEmptyCells(board));       // 3. otherwise random
+    }
+
+    return { ...player, chooseMove };
 }
 
 
@@ -29,11 +65,7 @@ const board = (() => {
     const getBoard = () => [...board];
     
     function printBoard() {
-        const boardCopy = [];
-        for (let i = 0; i < 9; i += 3) {
-            boardCopy.push([board[i], board[i + 1], board[i + 2]]);
-        } 
-        console.table(boardCopy);
+        console.table([...board]);
     };
     
     function tryMarkCell(index, mark) {
@@ -48,12 +80,12 @@ const board = (() => {
         return true;
     }
     
-    function hasWon() {
-        return winningLines.some(line => line.every(index => board[index] === lastMark));
+    function hasWon(board = board, mark = lastMark) {
+        return winningLines.some(line => line.every(index => board[index] === mark));
     }
 
     function isTie() {
-        return board.every(element => element !== "");
+        return board.every(cell => cell !== "");
     }
     
     function getResult() {
@@ -63,12 +95,19 @@ const board = (() => {
     }
 
     function reset() {
-        board.forEach((element, index) => {
+        board.forEach((cell, index) => {
             board[index] = "";
         });
     }
     
-    return { getBoard, printBoard, tryMarkCell, getResult, reset };
+    return { 
+        getBoard, 
+        printBoard, 
+        tryMarkCell,
+        hasWon,
+        getResult, 
+        reset 
+    };
 })();
 
 
@@ -84,13 +123,11 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
 
     const getResult = () => result;
 
-    const isOver = () => isGameOver;
-
     function switchActivePlayer() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    function markCell(index) {
+    function playTurn(index) {
         if (isGameOver) return;
         if (!board.tryMarkCell(index, activePlayer.getMarker())) return;
         result = board.getResult();
@@ -112,28 +149,29 @@ function createGame(player1Name = "Player X", player2Name = "Player O") {
         getPlayers, 
         getActivePlayer, 
         getResult,
-        isOver,
-        markCell, 
+        isGameOver: () => isGameOver,
+        playTurn, 
         restart 
     };
 };
 
 
 const displayController = (() => {
-    const isComputerChkbxs = document.querySelectorAll("input[type='checkbox']");
-    const cellBtns = document.querySelectorAll(".cell");
+    const isComputerCheckboxes = document.querySelectorAll("input[type='checkbox']");
+    const cellButtons = document.querySelectorAll(".cell");
     const messageP = document.querySelector(".message");
     const restartButton = document.querySelector(".restart");
+    let isComputerThinking = false;
 
-    isComputerChkbxs.forEach(chkbx => {
-        chkbx.addEventListener("change", () => {
-            document.querySelector(`#${chkbx.dataset.for}`).classList.toggle("hidden");
+    isComputerCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", () => {
+            document.querySelector(`#${checkbox.dataset.for}`).classList.toggle("hidden");
         });
     });
 
-    cellBtns.forEach((cell, index) => {
+    cellButtons.forEach((cell, index) => {
         cell.addEventListener("click", () => {
-            markCell(index);
+            handleCellClick(index);
         });
     })
     
@@ -141,20 +179,21 @@ const displayController = (() => {
         restart();
     });
 
-    function init() {
-        updateMessage(`${game.getPlayers()[0].getName()}'s turn.`);
+    function startGame() {
+        document.querySelector("main").classList.remove("hidden");
+        updateMessage(`${game.getActivePlayer().getName()}'s turn.`);
         document.querySelector(".player-x .name").textContent = game.getPlayers()[0].getName();
         document.querySelector(".player-x .marker").textContent = game.getPlayers()[0].getMarker();
         document.querySelector(".player-o .name").textContent = game.getPlayers()[1].getName();
         document.querySelector(".player-o .marker").textContent = game.getPlayers()[1].getMarker();
     }
 
-    function markCell(index) {
-        game.markCell(index);
+    function handleCellClick(index) {
+        if (isComputerThinking) return;
+        game.playTurn(index);
         updateBoard();
         let message;
-        // const result = game.getResult();
-        if (game.isOver()) {
+        if (game.isGameOver()) {
             message = game.getResult() === "win"
                 ? `${game.getActivePlayer().getName()} wins.`
                 : "Tie.";
@@ -163,6 +202,17 @@ const displayController = (() => {
             message = `${game.getActivePlayer().getName()}'s turn`;
         }
         updateMessage(message);
+        maybeComputerPlaysTurn();
+    }
+
+    function maybeComputerPlaysTurn() {
+        if (game.isGameOver()) return;
+        const player = game.getActivePlayer();
+        if (!player.isComputer()) return;
+        isComputerThinking = true;
+        setTimeout(() => {
+            game.playTurn(player.chooseMove(board.getBoard(), player.getMarker(), ))
+        }, 500);
     }
 
     function restart() {
@@ -174,7 +224,7 @@ const displayController = (() => {
 
     function updateBoard() {
         board.getBoard().forEach((mark, index) => {
-            cellBtns[index].textContent = mark;
+            cellButtons[index].textContent = mark;
         })
     }
 
@@ -183,20 +233,20 @@ const displayController = (() => {
     }
 
     function enableCells() {
-        cellBtns.forEach(cell => {
+        cellButtons.forEach(cell => {
             cell.disabled = false;
         });
     }
 
     function disableCells() {
-        cellBtns.forEach(cell => {
+        cellButtons.forEach(cell => {
             cell.disabled = true;
         });
     }
 
-    return { init };
+    return { startGame };
 })();
 
 
 let game = createGame();
-displayController.init();
+displayController.startGame();

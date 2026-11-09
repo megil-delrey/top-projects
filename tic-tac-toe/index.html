@@ -11,7 +11,7 @@
 </head>
 <body>
     <h1>Tic Tac Toe</h1>
-    <div class="setup">
+    <div class="setup hidden">
         <div class="cards">
             <div class="card">
                 <div class="form-field">
@@ -75,7 +75,7 @@
         <button class="start">Start</button>
     </div>
 
-    <main>
+    <main class="hidden">
         <div class="player-names">
             <div class="player-x">
                 <span class="name"></span>
@@ -107,13 +107,10 @@
     
     <script src="./script.js"></script>
     <!-- <script>
-    // console.log(message);
-    function log() {
-        console.log(message);
+    function createGame(isGameOver = false) {
+        return { isGameOver: () => isGameOver };
     }
-    log();
-    let message = "fuck";
-    // log();
+    const game = createGame();
     </script> -->
 </body>
 </html>
