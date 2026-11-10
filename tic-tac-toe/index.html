@@ -1,110 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Tic Tac Toe</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <h1>Tic Tac Toe</h1>
     <div class="setup hidden">
-        <div class="cards">
-            <div class="card">
-                <div class="form-field">
-                    <label for="player-x-name">Name:</label>
-                    <input type="text" placeholder="Player X" id="player-x-name">
-                </div>
-                <div class="is-computer">
-                    <div class="form-field">
-                        <label for="is-x-computer">Is a computer?</label>
-                        <input type="checkbox" name="is-x-computer" id="is-x-computer" data-for="x-skill-level">
-                    </div>
-                    <fieldset id="x-skill-level" class="hidden">
-                        <legend>Skill level: </legend>
-                        <div class="form-field">
-                            <input type="radio" name="x-skill-level" id="x-skill-level-1" value="lo" checked>
-                            <label for="x-skill-level-1">Low</label>
-                        </div>
-                        <div class="form-field">
-                            <input type="radio" name="x-skill-level" id="x-skill-level-2" value="med">
-                            <label for="x-skill-level-2">Medium</label>
-                        </div>
-                        <div class="form-field">
-                            <input type="radio" name="x-skill-level" id="x-skill-level-3" value="hi">
-                            <label for="x-skill-level-3">High</label>
-                        </div>
-                    </fieldset>
-                </div>
+      <div class="cards">
+        <div class="card">
+          <div class="form-field">
+            <label for="player-x-name">Name:</label>
+            <input type="text" placeholder="Player X" id="player-x-name" />
+          </div>
+          <div class="is-computer">
+            <div class="form-field">
+              <label for="is-x-computer">Is a computer?</label>
+              <input
+                type="checkbox"
+                name="is-x-computer"
+                id="is-x-computer"
+                data-for="x-skill-level"
+              />
             </div>
-
-            <span class="vs">VS</span>
-
-            <div class="card">
-                <div class="form-field">
-                    <label for="player-y-name">Name:</label>
-                    <input type="text" placeholder="Player Y" id="player-y-name">
-                </div>
-                <div class="is-computer">
-                    <div class="form-field">
-                        <label for="is-y-computer">Is a computer?</label>
-                        <input type="checkbox" name="is-y-computer" id="is-y-computer" data-for="y-skill-level">
-                    </div>
-                    <fieldset id="y-skill-level" class="hidden">
-                        <legend>Skill level: </legend>
-                        <div class="form-field">
-                            <input type="radio" name="y-skill-level" id="y-skill-level-1" value="lo" checked>
-                            <label for="y-skill-level-1">Low</label>
-                        </div>
-                        <div class="form-field">
-                            <input type="radio" name="y-skill-level" id="y-skill-level-2" value="med">
-                            <label for="y-skill-level-2">Medium</label>
-                        </div>
-                        <div class="form-field">
-                            <input type="radio" name="y-skill-level" id="y-skill-level-3" value="hi">
-                            <label for="y-skill-level-3">High</label>
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
+            <fieldset id="x-skill-level" class="hidden">
+              <legend>Skill level:</legend>
+              <div class="form-field">
+                <input
+                  type="radio"
+                  name="x-skill-level"
+                  id="x-skill-level-1"
+                  value="lo"
+                  checked
+                />
+                <label for="x-skill-level-1">Low</label>
+              </div>
+              <div class="form-field">
+                <input
+                  type="radio"
+                  name="x-skill-level"
+                  id="x-skill-level-2"
+                  value="med"
+                />
+                <label for="x-skill-level-2">Medium</label>
+              </div>
+              <div class="form-field">
+                <input
+                  type="radio"
+                  name="x-skill-level"
+                  id="x-skill-level-3"
+                  value="hi"
+                />
+                <label for="x-skill-level-3">High</label>
+              </div>
+            </fieldset>
+          </div>
         </div>
 
-        <button class="start">Start</button>
+        <span class="vs">VS</span>
+
+        <div class="card">
+          <div class="form-field">
+            <label for="player-y-name">Name:</label>
+            <input type="text" placeholder="Player Y" id="player-y-name" />
+          </div>
+          <div class="is-computer">
+            <div class="form-field">
+              <label for="is-y-computer">Is a computer?</label>
+              <input
+                type="checkbox"
+                name="is-y-computer"
+                id="is-y-computer"
+                data-for="y-skill-level"
+              />
+            </div>
+            <fieldset id="y-skill-level" class="hidden">
+              <legend>Skill level:</legend>
+              <div class="form-field">
+                <input
+                  type="radio"
+                  name="y-skill-level"
+                  id="y-skill-level-1"
+                  value="lo"
+                  checked
+                />
+                <label for="y-skill-level-1">Low</label>
+              </div>
+              <div class="form-field">
+                <input
+                  type="radio"
+                  name="y-skill-level"
+                  id="y-skill-level-2"
+                  value="med"
+                />
+                <label for="y-skill-level-2">Medium</label>
+              </div>
+              <div class="form-field">
+                <input
+                  type="radio"
+                  name="y-skill-level"
+                  id="y-skill-level-3"
+                  value="hi"
+                />
+                <label for="y-skill-level-3">High</label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+
+      <button class="start">Start</button>
     </div>
 
     <main class="hidden">
-        <div class="player-names">
-            <div class="player-x">
-                <span class="name"></span>
-                <span class="marker"></span>
-            </div>
-            <span class="vs">VS</span>
-            <div class="player-o">
-                <span class="name"></span>
-                <span class="marker"></span>
-            </div>
+      <div class="player-names">
+        <div class="player-x">
+          <span class="name"></span>
+          <span class="marker"></span>
         </div>
-        <div class="board">
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
-            <button class="cell"></button>
+        <span class="vs">VS</span>
+        <div class="player-o">
+          <span class="name"></span>
+          <span class="marker"></span>
         </div>
-        <p class="message"></p>
-        <div class="buttons">
-            <button class="new-game">New Game</button>
-            <button class="restart">Restart</button>
-        </div>
+      </div>
+      <div class="board">
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+        <button class="cell"></button>
+      </div>
+      <p class="message"></p>
+      <div class="buttons">
+        <button class="new-game">New Game</button>
+        <button class="restart">Restart</button>
+      </div>
     </main>
-    
+
     <script src="./script.js"></script>
     <!-- <script>
     function createGame(isGameOver = false) {
@@ -112,5 +157,5 @@
     }
     const game = createGame();
     </script> -->
-</body>
+  </body>
 </html>
