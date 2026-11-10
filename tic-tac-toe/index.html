@@ -14,7 +14,8 @@
   </head>
   <body>
     <h1>Tic Tac Toe</h1>
-    <div class="setup hidden">
+
+    <div class="setup-ui hidden">
       <div class="cards">
         <div class="card">
           <div class="form-field">
@@ -118,20 +119,22 @@
       </div>
 
       <button class="start">Start</button>
+
     </div>
 
-    <main class="hidden">
+    <main class="">
       <div class="player-names">
-        <div class="player-x">
+        <div class="player-names__x">
           <span class="name"></span>
-          <span class="marker"></span>
+          <span class="marker">X</span>
         </div>
         <span class="vs">VS</span>
-        <div class="player-o">
+        <div class="player-names__o">
           <span class="name"></span>
-          <span class="marker"></span>
+          <span class="marker">O</span>
         </div>
       </div>
+
       <div class="board">
         <button class="cell"></button>
         <button class="cell"></button>
@@ -143,19 +146,16 @@
         <button class="cell"></button>
         <button class="cell"></button>
       </div>
-      <p class="message"></p>
+
+      <p class="log"></p>
+
       <div class="buttons">
         <button class="new-game">New Game</button>
         <button class="restart">Restart</button>
       </div>
+
     </main>
 
     <script src="./script.js"></script>
-    <!-- <script>
-    function createGame(isGameOver = false) {
-        return { isGameOver: () => isGameOver };
-    }
-    const game = createGame();
-    </script> -->
   </body>
 </html>

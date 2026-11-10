@@ -23,9 +23,6 @@ function createComputerPlayer(name, marker, skillLevel = 1) {
   const pickRandomCell = (emptyCells) =>
     emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
-  // const hasWon = (cells, marker) =>
-  //     WIN_LINES.some(line => line.every(i => cells[i] === marker));
-
   // For each index of empty cells, mark that index in a copy of a board and test if that move triggered a win.
   const findWinningMove = (board, marker) =>
     getEmptyCells(board).find((index) => {
@@ -67,7 +64,7 @@ const GameBoard = (() => {
   const getBoard = () => [...board];
 
   function printBoard() {
-    const TwoDBoard = []
+    const TwoDBoard = [];
     for (let i = 0; i < 9; i += 3) {
       const row = [];
       for (let j = 0; j < 3; j++) {
@@ -78,7 +75,7 @@ const GameBoard = (() => {
     console.table(TwoDBoard);
   }
 
-  function tryPlaceMark(index, mark) {
+  function placeMark(index, mark) {
     if (index === undefined || index < 0 || index > 8) {
       return false;
     }
@@ -116,7 +113,7 @@ const GameBoard = (() => {
   return {
     getBoard,
     printBoard,
-    tryPlaceMark,
+    placeMark,
     hasWon,
     getResult,
     reset,
@@ -156,9 +153,22 @@ const GameController = (() => {
     printTurn();
   }
 
+  function playHumanTurn(index) {
+    if (currentPlayer.isComputer()) return;
+    playTurn(index);
+  }
+
+  function playComputerTurn() {
+    if (!currentPlayer.isComputer()) return;
+    const opponent = currentPlayer === players[0] ? players[1] : players[0];
+    playTurn(
+      currentPlayer.chooseMove(GameBoard.getBoard(), opponent.getMarker()),
+    );
+  }
+
   function playTurn(index) {
     if (isGameOver) return;
-    if (!GameBoard.tryPlaceMark(index, currentPlayer.getMarker())) return;
+    if (!GameBoard.placeMark(index, currentPlayer.getMarker())) return;
     result = GameBoard.getResult();
     if (result) {
       isGameOver = true;
@@ -166,14 +176,6 @@ const GameController = (() => {
       return;
     }
     switchCurrentPlayer();
-  }
-
-  function playComputerTurn() {
-    if (isGameOver || !currentPlayer.isComputer()) return;
-    const opponent = currentPlayer === players[0] ? players[1] : players[0];
-    playTurn(
-      currentPlayer.chooseMove(GameBoard.getBoard(), opponent.getMarker()),
-    );
   }
 
   function restart() {
@@ -203,7 +205,7 @@ const GameController = (() => {
     getResult,
     isGameOver: () => isGameOver,
     start,
-    playTurn,
+    playHumanTurn,
     playComputerTurn,
     restart,
   };
@@ -214,7 +216,7 @@ const DisplayController = (() => {
     "input[type='checkbox']",
   );
   const cellButtons = document.querySelectorAll(".cell");
-  const messageP = document.querySelector(".message");
+  const logP = document.querySelector(".log");
   const restartButton = document.querySelector(".restart");
   let isComputerThinking = false;
 
@@ -226,9 +228,23 @@ const DisplayController = (() => {
     });
   });
 
+  function start() {
+    GameController.start(
+      { name: "Player X" },
+      { name: "Player O - Computer", isComputer: true, skillLevel: 1 },
+    );
+    document.querySelector("main").classList.remove("hidden");
+    updateLog(`${GameController.getCurrentPlayer().getName()}'s turn.`);
+    GameController.getPlayers().forEach((player) => {
+      document.querySelector(
+        `.player-names__${player.getMarker().toLowerCase()} .name`,
+      ).textContent = player.getName();
+    });
+  }
+
   cellButtons.forEach((cell, index) => {
     cell.addEventListener("click", () => {
-      handleCellClick(index);
+      playHumanTurn(index);
     });
   });
 
@@ -236,57 +252,50 @@ const DisplayController = (() => {
     restart();
   });
 
-  function startGame() {
-    document.querySelector("main").classList.remove("hidden");
-    updateMessage(`${game.getActivePlayer().getName()}'s turn.`);
-    document.querySelector(".player-x .name").textContent = game
-      .getPlayers()[0]
-      .getName();
-    document.querySelector(".player-x .marker").textContent = game
-      .getPlayers()[0]
-      .getMarker();
-    document.querySelector(".player-o .name").textContent = game
-      .getPlayers()[1]
-      .getName();
-    document.querySelector(".player-o .marker").textContent = game
-      .getPlayers()[1]
-      .getMarker();
+  function playHumanTurn(index) {
+    if (isComputerThinking) return;
+    GameController.playHumanTurn(index);
+    updateBoardAndLog();
   }
 
-  function handleCellClick(index) {
-    if (isComputerThinking) return;
-    game.playTurn(index);
+  function playComputerTurn() {
+    const computer = GameController.getCurrentPlayer();
+    const opponent = GameController.getPlayers().find(
+      (player) => player !== computer,
+    );
+    if (!computer.isComputer()) return;
+    isComputerThinking = true;
+    setTimeout(() => {
+      GameController.playComputerTurn(
+        computer.chooseMove(GameBoard.getBoard(), opponent.getMarker()),
+      );
+      updateBoardAndLog();
+      isComputerThinking = false;
+    }, 1000);
+  }
+
+  function updateBoardAndLog() {
     updateBoard();
-    let message;
-    if (game.isGameOver()) {
-      message =
-        game.getResult() === "win"
-          ? `${game.getActivePlayer().getName()} wins.`
+    let log;
+    if (GameController.isGameOver()) {
+      log =
+        GameController.getResult() === "win"
+          ? `${GameController.getCurrentPlayer().getName()} wins.`
           : "Tie.";
       disableCells();
     } else {
-      message = `${game.getActivePlayer().getName()}'s turn`;
+      log = `${GameController.getCurrentPlayer().getName()}'s turn.`;
     }
-    updateMessage(message);
-    maybeComputerPlaysTurn();
-  }
-
-  function maybeComputerPlaysTurn() {
-    if (game.isGameOver()) return;
-    const player = game.getActivePlayer();
-    if (!player.isComputer()) return;
-    isComputerThinking = true;
-    setTimeout(() => {
-      game.playTurn(
-        player.chooseMove(GameBoard.getBoard(), player.getMarker()),
-      );
-    }, 500);
+    updateLog(log);
+    if (GameController.getCurrentPlayer().isComputer()) {
+      playComputerTurn();
+    }
   }
 
   function restart() {
     game.restart();
     updateBoard();
-    updateMessage(`${game.getActivePlayer().getName()}'s turn.`);
+    updateLog(`${game.getActivePlayer().getName()}'s turn.`);
     enableCells();
   }
 
@@ -296,8 +305,8 @@ const DisplayController = (() => {
     });
   }
 
-  function updateMessage(message) {
-    messageP.textContent = message;
+  function updateLog(message) {
+    logP.textContent = message;
   }
 
   function enableCells() {
@@ -312,11 +321,11 @@ const DisplayController = (() => {
     });
   }
 
-  return { startGame };
+  return { start };
 })();
 
-GameController.start(
-  { name: "Player X - Computer", isComputer: true, skillLevel: 1 },
-  { name: "Player O" }
-);
-// DisplayController.startGame();
+// GameController.start(
+//   { name: "Player X - Computer", isComputer: true, skillLevel: 1 },
+//   { name: "Player O" },
+// );
+DisplayController.start();
