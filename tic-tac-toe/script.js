@@ -20,7 +20,7 @@ function createComputerPlayer(name, marker, skillLevel = 1) {
       .map((cell, index) => (cell === "" ? index : null))
       .filter((index) => index !== null);
 
-  const pickRandomCell = (emptyCells) =>
+  const pickRandomEmptyCell = (emptyCells) =>
     emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
   // For each index of empty cells, mark that index in a copy of a board and test if that move triggered a win.
@@ -38,7 +38,7 @@ function createComputerPlayer(name, marker, skillLevel = 1) {
       const block = findWinningMove(board, opponentMarker);
       if (block !== undefined) return block; // 2. otherwise block
     }
-    return pickRandomCell(getEmptyCells(board)); // 3. otherwise random
+    return pickRandomEmptyCell(getEmptyCells(board)); // 3. otherwise random
   }
 
   return { ...player, chooseMove };
@@ -230,7 +230,7 @@ const DisplayController = (() => {
 
   function start() {
     GameController.start(
-      { name: "Player X" },
+      { name: "Player X - Computer", isComputer: true, skillLevel: 1 },
       { name: "Player O - Computer", isComputer: true, skillLevel: 1 },
     );
     document.querySelector("main").classList.remove("hidden");
@@ -240,6 +240,9 @@ const DisplayController = (() => {
         `.player-names__${player.getMarker().toLowerCase()} .name`,
       ).textContent = player.getName();
     });
+    if (GameController.getCurrentPlayer().isComputer()) {
+      playComputerTurn();
+    }
   }
 
   cellButtons.forEach((cell, index) => {
@@ -260,10 +263,10 @@ const DisplayController = (() => {
 
   function playComputerTurn() {
     const computer = GameController.getCurrentPlayer();
+    if (!computer.isComputer()) return;
     const opponent = GameController.getPlayers().find(
       (player) => player !== computer,
     );
-    if (!computer.isComputer()) return;
     isComputerThinking = true;
     setTimeout(() => {
       GameController.playComputerTurn(
@@ -293,9 +296,9 @@ const DisplayController = (() => {
   }
 
   function restart() {
-    game.restart();
+    GameController.restart();
     updateBoard();
-    updateLog(`${game.getActivePlayer().getName()}'s turn.`);
+    updateLog(`${GameController.getCurrentPlayer().getName()}'s turn.`);
     enableCells();
   }
 

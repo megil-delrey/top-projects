@@ -19,6 +19,10 @@ button {
   color: inherit;
 }
 
+button {
+  cursor: pointer;
+}
+
 input[type="text"] {
   padding-inline: 4px;
   padding-block: 2px;
@@ -80,8 +84,8 @@ fieldset {
 main {
   display: flex;
   flex-direction: column;
-  gap: 32px;
   align-items: center;
+  gap: 32px;
   border: 2px solid var(--almost-black);
   padding: 16px;
   border-radius: 4px;
@@ -130,11 +134,37 @@ main {
   line-height: 1;
   font-size: 48px;
   text-align: center;
-  cursor: pointer;
   border: none;
 }
 
+.cell:hover {
+  background-color: hsl(0 0% 90%);
+}
+
+.cell:disabled {
+  color: var(--almost-black);
+}
+
 .log {
+}
+
+.buttons {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.buttons > button {
+  flex: 0 1 100px;
+  padding-block: 4px;
+  background-color: white;
+  border: 2px solid var(--almost-black);
+  border-radius: 4px;
+}
+
+.buttons > button:hover {
+  background-color: hsl(0 0% 90%);
 }
 
 .hidden {
