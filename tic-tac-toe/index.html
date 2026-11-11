@@ -15,12 +15,12 @@
   <body>
     <h1>Tic Tac Toe</h1>
 
-    <div class="setup-ui hidden">
-      <div class="cards">
-        <div class="card">
+    <form class="setup-ui">
+      <div class="players-inputs">
+        <div class="player-x-inputs player-inputs" data-marker="x">
           <div class="form-field">
             <label for="player-x-name">Name:</label>
-            <input type="text" placeholder="Player X" id="player-x-name" />
+            <input type="text" value="Player X" id="player-x-name" />
           </div>
           <div class="is-computer">
             <div class="form-field">
@@ -68,10 +68,10 @@
 
         <span class="vs">VS</span>
 
-        <div class="card">
+        <div class="player-y-inputs player-inputs">
           <div class="form-field">
             <label for="player-y-name">Name:</label>
-            <input type="text" placeholder="Player Y" id="player-y-name" />
+            <input type="text" value="Player Y" id="player-y-name" />
           </div>
           <div class="is-computer">
             <div class="form-field">
@@ -118,18 +118,18 @@
         </div>
       </div>
 
-      <button class="start">Start</button>
+      <button class="start-button" type="submit">Start</button>
 
-    </div>
+    </form>
 
-    <main class="">
-      <div class="player-names">
-        <div class="player-names__x">
+    <main class="hidden">
+      <div class="player-info">
+        <div class="player-info__x">
           <span class="name"></span>
           <span class="marker">X</span>
         </div>
         <span class="vs">VS</span>
-        <div class="player-names__o">
+        <div class="player-info__o">
           <span class="name"></span>
           <span class="marker">O</span>
         </div>
@@ -151,7 +151,7 @@
 
       <div class="buttons">
         <button class="new-game">New Game</button>
-        <button class="restart">Restart</button>
+        <button class="restart-button">Restart</button>
       </div>
 
     </main>

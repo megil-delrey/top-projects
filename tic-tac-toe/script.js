@@ -15,6 +15,8 @@ function createPlayer(name, marker, isComputer = false) {
 function createComputerPlayer(name, marker, skillLevel = 1) {
   const player = createPlayer(name, marker, true);
 
+  const getSkillLevel = () => skillLevel;
+
   const getEmptyCells = (board) =>
     board
       .map((cell, index) => (cell === "" ? index : null))
@@ -41,7 +43,7 @@ function createComputerPlayer(name, marker, skillLevel = 1) {
     return pickRandomEmptyCell(getEmptyCells(board)); // 3. otherwise random
   }
 
-  return { ...player, chooseMove };
+  return { ...player, getSkillLevel, chooseMove };
 }
 
 const GameBoard = (() => {
@@ -212,13 +214,19 @@ const GameController = (() => {
 })();
 
 const DisplayController = (() => {
+  const skillLevels = {
+    0.33: "Low",
+    0.67: "Medium",
+    1: "High",
+  };
+  const form = document.querySelector("form");
   const isComputerCheckboxes = document.querySelectorAll(
     "input[type='checkbox']",
   );
+  const startButton = document.querySelector(".start-button");
   const cellButtons = document.querySelectorAll(".cell");
   const logP = document.querySelector(".log");
-  const restartButton = document.querySelector(".restart");
-  let isComputerThinking = false;
+  const restartButton = document.querySelector(".restart-button");
 
   isComputerCheckboxes.forEach((checkbox) => {
     checkbox.addEventListener("change", () => {
@@ -228,17 +236,43 @@ const DisplayController = (() => {
     });
   });
 
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const players = [];
+    const playersInputsDiv = document.querySelectorAll(".player-inputs");
+    playersInputsDiv.forEach((playerInputsDiv) => {
+      const marker = playerInputsDiv.dataset.marker;
+      const player = {};
+      player.name = playerInputsDiv.querySelector(`#player-${marker}-name`).value;
+      player.marker = marker;
+      if (playerInputsDiv.querySelector(`#is-${marker}-computer`).checked) {
+        player.isComputer = true;
+        player.skillLevel = 
+      }
+    });
+  });
+
   function start() {
     GameController.start(
       { name: "Player X - Computer", isComputer: true, skillLevel: 1 },
-      { name: "Player O - Computer", isComputer: true, skillLevel: 1 },
+      { name: "Player O" },
     );
+    document.querySelector(".setup-ui").classList.add("hidden");
     document.querySelector("main").classList.remove("hidden");
     updateLog(`${GameController.getCurrentPlayer().getName()}'s turn.`);
     GameController.getPlayers().forEach((player) => {
-      document.querySelector(
-        `.player-names__${player.getMarker().toLowerCase()} .name`,
-      ).textContent = player.getName();
+      const playerInfoDiv = document.querySelector(
+        `.player-info__${player.getMarker().toLowerCase()}`,
+      );
+      playerInfoDiv.querySelector(".name").textContent = player.getName();
+      if (player.isComputer()) {
+        const span = document.createElement("span");
+        span.textContent = `Skill level: ${skillLevels[player.getSkillLevel()]}`;
+        playerInfoDiv.insertBefore(
+          span,
+          playerInfoDiv.querySelector(".marker"),
+        );
+      }
     });
     if (GameController.getCurrentPlayer().isComputer()) {
       playComputerTurn();
@@ -256,53 +290,44 @@ const DisplayController = (() => {
   });
 
   function playHumanTurn(index) {
-    if (isComputerThinking) return;
+    if (GameController.getCurrentPlayer().isComputer()) return;
     GameController.playHumanTurn(index);
-    updateBoardAndLog();
+    render();
+    playComputerTurn();
   }
 
   function playComputerTurn() {
-    const computer = GameController.getCurrentPlayer();
-    if (!computer.isComputer()) return;
-    const opponent = GameController.getPlayers().find(
-      (player) => player !== computer,
-    );
-    isComputerThinking = true;
+    if (!GameController.getCurrentPlayer().isComputer()) return;
     setTimeout(() => {
-      GameController.playComputerTurn(
-        computer.chooseMove(GameBoard.getBoard(), opponent.getMarker()),
-      );
-      updateBoardAndLog();
-      isComputerThinking = false;
+      GameController.playComputerTurn();
+      render();
+      playComputerTurn();
     }, 1000);
   }
 
-  function updateBoardAndLog() {
-    updateBoard();
-    let log;
+  function render() {
+    renderBoard();
     if (GameController.isGameOver()) {
-      log =
+      updateLog(
         GameController.getResult() === "win"
           ? `${GameController.getCurrentPlayer().getName()} wins.`
-          : "Tie.";
+          : "Tie.",
+      );
       disableCells();
+      return;
     } else {
-      log = `${GameController.getCurrentPlayer().getName()}'s turn.`;
-    }
-    updateLog(log);
-    if (GameController.getCurrentPlayer().isComputer()) {
-      playComputerTurn();
+      updateLog(`${GameController.getCurrentPlayer().getName()}'s turn.`);
     }
   }
 
   function restart() {
     GameController.restart();
-    updateBoard();
+    renderBoard();
     updateLog(`${GameController.getCurrentPlayer().getName()}'s turn.`);
     enableCells();
   }
 
-  function updateBoard() {
+  function renderBoard() {
     GameBoard.getBoard().forEach((mark, index) => {
       cellButtons[index].textContent = mark;
     });
@@ -327,8 +352,10 @@ const DisplayController = (() => {
   return { start };
 })();
 
-// GameController.start(
-//   { name: "Player X - Computer", isComputer: true, skillLevel: 1 },
-//   { name: "Player O" },
-// );
-DisplayController.start();
+// DisplayController.start();
+
+// const Person = (() => {
+//   let name = "John";
+//   const getName = () => name;
+//   return { name, getName };
+// })();

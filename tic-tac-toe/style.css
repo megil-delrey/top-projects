@@ -19,8 +19,16 @@ button {
   color: inherit;
 }
 
+input {
+  border: 1px solid var(--almost-black);
+}
+
 button {
   cursor: pointer;
+}
+
+button:hover {
+  background-color: hsl(0 0% 90%);
 }
 
 input[type="text"] {
@@ -47,14 +55,14 @@ h1 {
   margin-bottom: 32px;
 }
 
-.cards {
+.players-inputs {
   display: flex;
   flex-wrap: wrap;
   gap: 24px;
   align-items: flex-start;
 }
 
-.card {
+.player-inputs {
   border: 2px solid var(--almost-black);
   padding: 16px;
   border-radius: 8px;
@@ -76,9 +84,13 @@ fieldset {
   gap: 4px;
 }
 
-.start {
-  border: 1px solid hsl(0 0% 50%);
-  border-radius: 8px;
+.start-button {
+  padding-block: 4px;
+  padding-inline: 12px;
+  background-color: white;
+  border: 2px solid var(--almost-black);
+  border-radius: 4px;
+  font-weight: 600;
 }
 
 main {
@@ -95,7 +107,7 @@ main {
   padding: 4px 16px;
 }
 
-.player-names {
+.player-info {
   align-self: stretch;
   display: flex;
   justify-content: center;
@@ -103,11 +115,11 @@ main {
   font-weight: 500;
 }
 
-.player-names > div {
+.player-info > div {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
   align-items: center;
 }
 
@@ -137,9 +149,6 @@ main {
   border: none;
 }
 
-.cell:hover {
-  background-color: hsl(0 0% 90%);
-}
 
 .cell:disabled {
   color: var(--almost-black);
@@ -161,10 +170,7 @@ main {
   background-color: white;
   border: 2px solid var(--almost-black);
   border-radius: 4px;
-}
-
-.buttons > button:hover {
-  background-color: hsl(0 0% 90%);
+  font-weight: 600;
 }
 
 .hidden {
