@@ -39,8 +39,7 @@
                   type="radio"
                   name="x-skill-level"
                   id="x-skill-level-1"
-                  value="lo"
-                  checked
+                  value="low"
                 />
                 <label for="x-skill-level-1">Low</label>
               </div>
@@ -49,7 +48,8 @@
                   type="radio"
                   name="x-skill-level"
                   id="x-skill-level-2"
-                  value="med"
+                  value="medium"
+                  checked
                 />
                 <label for="x-skill-level-2">Medium</label>
               </div>
@@ -58,7 +58,7 @@
                   type="radio"
                   name="x-skill-level"
                   id="x-skill-level-3"
-                  value="hi"
+                  value="high"
                 />
                 <label for="x-skill-level-3">High</label>
               </div>
@@ -68,50 +68,50 @@
 
         <span class="vs">VS</span>
 
-        <div class="player-y-inputs player-inputs">
+        <div class="player-o-inputs player-inputs" data-marker="o">
           <div class="form-field">
-            <label for="player-y-name">Name:</label>
-            <input type="text" value="Player Y" id="player-y-name" />
+            <label for="player-o-name">Name:</label>
+            <input type="text" value="Player O" id="player-o-name" />
           </div>
           <div class="is-computer">
             <div class="form-field">
-              <label for="is-y-computer">Is a computer?</label>
+              <label for="is-o-computer">Is a computer?</label>
               <input
                 type="checkbox"
-                name="is-y-computer"
-                id="is-y-computer"
-                data-for="y-skill-level"
+                name="is-o-computer"
+                id="is-o-computer"
+                data-for="o-skill-level"
               />
             </div>
-            <fieldset id="y-skill-level" class="hidden">
+            <fieldset id="o-skill-level" class="hidden">
               <legend>Skill level:</legend>
               <div class="form-field">
                 <input
                   type="radio"
-                  name="y-skill-level"
-                  id="y-skill-level-1"
-                  value="lo"
+                  name="o-skill-level"
+                  id="o-skill-level-1"
+                  value="low"
+                />
+                <label for="o-skill-level-1">Low</label>
+              </div>
+              <div class="form-field">
+                <input
+                  type="radio"
+                  name="o-skill-level"
+                  id="o-skill-level-2"
+                  value="medium"
                   checked
                 />
-                <label for="y-skill-level-1">Low</label>
+                <label for="o-skill-level-2">Medium</label>
               </div>
               <div class="form-field">
                 <input
                   type="radio"
-                  name="y-skill-level"
-                  id="y-skill-level-2"
-                  value="med"
+                  name="o-skill-level"
+                  id="o-skill-level-3"
+                  value="high"
                 />
-                <label for="y-skill-level-2">Medium</label>
-              </div>
-              <div class="form-field">
-                <input
-                  type="radio"
-                  name="y-skill-level"
-                  id="y-skill-level-3"
-                  value="hi"
-                />
-                <label for="y-skill-level-3">High</label>
+                <label for="o-skill-level-3">High</label>
               </div>
             </fieldset>
           </div>
@@ -123,14 +123,16 @@
     </form>
 
     <main class="hidden">
-      <div class="player-info">
+      <div class="players-info">
         <div class="player-info__x">
           <span class="name"></span>
+          <span class="skill-level"></span>
           <span class="marker">X</span>
         </div>
         <span class="vs">VS</span>
         <div class="player-info__o">
           <span class="name"></span>
+          <span class="skill-level"></span>
           <span class="marker">O</span>
         </div>
       </div>
@@ -150,7 +152,7 @@
       <p class="log"></p>
 
       <div class="buttons">
-        <button class="new-game">New Game</button>
+        <button class="new-game-button">New Game</button>
         <button class="restart-button">Restart</button>
       </div>
 
