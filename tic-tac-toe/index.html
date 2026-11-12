@@ -17,10 +17,10 @@
 
     <form class="setup-ui">
       <div class="players-inputs">
-        <div class="player-x-inputs player-inputs" data-marker="x">
+        <div class="player-inputs" data-marker="x">
           <div class="form-field">
             <label for="player-x-name">Name:</label>
-            <input type="text" value="Player X" id="player-x-name" />
+            <input type="text" value="Player X" id="player-x-name" required />
           </div>
           <div class="is-computer">
             <div class="form-field">
@@ -68,10 +68,10 @@
 
         <span class="vs">VS</span>
 
-        <div class="player-o-inputs player-inputs" data-marker="o">
+        <div class="player-inputs" data-marker="o">
           <div class="form-field">
             <label for="player-o-name">Name:</label>
-            <input type="text" value="Player O" id="player-o-name" />
+            <input type="text" value="Player O" id="player-o-name" required />
           </div>
           <div class="is-computer">
             <div class="form-field">
@@ -119,7 +119,6 @@
       </div>
 
       <button class="start-button" type="submit">Start</button>
-
     </form>
 
     <main class="hidden">
@@ -155,9 +154,8 @@
         <button class="new-game-button">New Game</button>
         <button class="restart-button">Restart</button>
       </div>
-
     </main>
 
-    <script src="./script.js"></script>
+    <script src="./index.js" type="module"></script>
   </body>
 </html>
